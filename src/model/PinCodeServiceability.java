@@ -1,30 +1,30 @@
 package model;
 
 public class PinCodeServiceability {
-    private String sourcePin;
-    private String destPin;
+    private String sourcePinCode;
+    private String destinationPinCode;
     private PaymentType paymentType;
 
-    public PinCodeServiceability(String sourcePin, String destPin, PaymentType paymentType) {
-        this.sourcePin = sourcePin;
-        this.destPin = destPin;
+    public PinCodeServiceability(String sourcePinCode, String destinationPinCode, PaymentType paymentType) {
+        this.sourcePinCode = sourcePinCode;
+        this.destinationPinCode = destinationPinCode;
         this.paymentType = paymentType;
     }
 
-    public String getSourcePin() {
-        return sourcePin;
+    public String getSourcePinCode() {
+        return sourcePinCode;
     }
 
-    public void setSourcePin(String sourcePin) {
-        this.sourcePin = sourcePin;
+    public void setSourcePin(String sourcePinCode) {
+        this.sourcePinCode = sourcePinCode;
     }
 
-    public String getDestPin() {
-        return destPin;
+    public String getDestinationPinCode() {
+        return destinationPinCode;
     }
 
-    public void setDestPin(String destPin) {
-        this.destPin = destPin;
+    public void setDestinationPinCode(String destinationPinCode) {
+        this.destinationPinCode = destinationPinCode;
     }
 
     public PaymentType getPaymentType() {

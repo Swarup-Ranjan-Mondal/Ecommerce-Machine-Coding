@@ -1,12 +1,18 @@
 import model.*;
+import repository.*;
 import service.*;
 
 public class App {
     public static void main(String[] args) {
-        ProductService productService = new ProductService();
-        BuyerService buyerService = new BuyerService();
-        PincodeService pincodeService = new PincodeService();
-        OrderService orderService = new OrderService(productService, buyerService, pincodeService);
+        BuyerRepository buyerRepository = new BuyerRepository();
+        ProductRepository productRepository = new ProductRepository();
+        OrderRepository orderRepository = new OrderRepository();
+        PinCodeServiceabilityRepository pinCodeServiceabilityRepository = new PinCodeServiceabilityRepository();
+
+        BuyerService buyerService = new BuyerService(buyerRepository);
+        ProductService productService = new ProductService(productRepository);
+        PinCodeService pinCodeService = new PinCodeService(pinCodeServiceabilityRepository);
+        OrderService orderService = new OrderService(orderRepository, productService, buyerService, pinCodeService);
 
         Address address1 = new Address("Tag", "Vizag", "531162");
         Address address2 = new Address("Somaji", "Hyderabad", "500082");
@@ -22,10 +28,10 @@ public class App {
         productService.addProduct(product3);
         productService.addProduct(product4);
 
-        pincodeService.addServiceability("531162", "500082", PaymentType.PREPAID);
-        pincodeService.addServiceability("531162", "531162", PaymentType.PREPAID);
-        pincodeService.addServiceability("500082", "536264", PaymentType.PREPAID);
-        pincodeService.addServiceability("536264", "531162", PaymentType.PREPAID);
+        pinCodeService.addPinCodeServiceability("531162", "500082", PaymentType.PREPAID);
+        pinCodeService.addPinCodeServiceability("531162", "531162", PaymentType.PREPAID);
+        pinCodeService.addPinCodeServiceability("500082", "536264", PaymentType.PREPAID);
+        pinCodeService.addPinCodeServiceability("536264", "531162", PaymentType.PREPAID);
 
         Buyer buyer1 = new Buyer("LavKumar", address1);
         Buyer buyer2 = new Buyer("Pranvya", address2);

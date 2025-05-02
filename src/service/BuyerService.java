@@ -1,16 +1,20 @@
 package service;
 
 import model.*;
-import java.util.*;
+import repository.*;
 
 public class BuyerService {
-    Map<String, Buyer> buyers = new HashMap<>();
+    BuyerRepository buyerRepository;
+
+    public BuyerService(BuyerRepository buyerRepository) {
+        this.buyerRepository = buyerRepository;
+    }
 
     public void addBuyer(Buyer buyer) {
-        buyers.put(buyer.getBuyerId(), buyer);
+        buyerRepository.save(buyer);
     }
 
     public Buyer getBuyer(String buyerId) {
-        return buyers.get(buyerId);
+        return buyerRepository.get(buyerId);
     }
 }

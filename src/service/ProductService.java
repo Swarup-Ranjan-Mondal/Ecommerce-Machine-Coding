@@ -1,37 +1,44 @@
 package service;
 
 import model.Product;
-import java.util.*;
+import repository.ProductRepository;
 
 public class ProductService {
-    Map<String, Product> products = new HashMap<>();
+    ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     public void addProduct(Product product) {
-        products.put(product.getProductId(), product);
+        productRepository.save(product);
     }
 
     public Product getProduct(String productId) {
-        return products.get(productId);
+        return productRepository.get(productId);
     }
 
-    public void updateProduct(String productId, int quantity) {
-        Product product = products.get(productId);
-        if (product != null) {
-            product.setQuantity(quantity);
+    public void updateProduct(Product updatedProduct) {
+        Product product = productRepository.get(updatedProduct.getProductId());
+        if (product == null) {
+            System.out.println("Product not found.");
+            return;
         }
+        productRepository.save(product);
     }
 
     public int checkInventory(String productId) {
-        Product product = products.get(productId);
-        if(product != null) {
-            return product.getQuantity();
+        Product product = productRepository.get(productId);
+        if (product == null) {
+            System.out.println("Product not found.");
+            return 0;
         }
-        return 0;
+        return product.getQuantity();
     }
 
     public boolean reduceInventory(String productId, int qty) {
         synchronized (this) {
-            Product product = products.get(productId);
+            Product product = productRepository.get(productId);
             if (product != null && product.getQuantity() >= qty) {
                 product.setQuantity(product.getQuantity() - qty);
                 return true;

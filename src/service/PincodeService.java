@@ -1,22 +1,27 @@
 package service;
 
-import model.PinCodeServiceability;
+import java.util.HashMap;
+
 import model.PaymentType;
-import java.util.*;
+import model.PinCodeServiceability;
+import repository.PinCodeServiceabilityRepository;
 
-public class PincodeService {
-    List<PinCodeServiceability> serviceabilityList = new ArrayList<>();
+public class PinCodeService {
+    PinCodeServiceabilityRepository pinCodeServiceabilityRepository;
 
-    public void addServiceability(String sourcePin, String destPin, PaymentType paymentType) {
-        serviceabilityList.add(new PinCodeServiceability(sourcePin, destPin, paymentType));
+    public PinCodeService(PinCodeServiceabilityRepository pinCodeServiceabilityRepository) {
+        this.pinCodeServiceabilityRepository = pinCodeServiceabilityRepository;
     }
 
-    public boolean isServiceable(String sourcePin, String destPin, PaymentType requested) {
-        for (PinCodeServiceability serviceLocation : serviceabilityList) {
-            if (serviceLocation.getSourcePin().equals(sourcePin) && serviceLocation.getDestPin().equals(destPin)) {
-                return serviceLocation.getPaymentType() == requested || serviceLocation.getPaymentType() == PaymentType.BOTH;
-            }
-        }
-        return false;
+    public void addPinCodeServiceability(String sourcePin, String destPin, PaymentType paymentType) {
+        PinCodeServiceability pinCodeServiceability = new PinCodeServiceability(sourcePin, destPin, paymentType);
+        pinCodeServiceabilityRepository.save(pinCodeServiceability);
+    }
+
+    public boolean isServiceable(String sourcePinCode, String destinationPinCode, PaymentType paymentType) {
+        HashMap<String, PaymentType> allDestinationPincodes = pinCodeServiceabilityRepository
+                .getAllDestinationPincodes(sourcePinCode);
+        return allDestinationPincodes.containsKey(destinationPinCode)
+                && paymentType.equals(allDestinationPincodes.get(destinationPinCode));
     }
 }

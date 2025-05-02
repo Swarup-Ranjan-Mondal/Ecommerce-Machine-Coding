@@ -1,19 +1,22 @@
 package service;
 
 import model.*;
+import repository.*;
 
 import java.util.*;
 
 public class OrderService {
-    Map<String, Order> orders = new HashMap<>();
+    OrderRepository orderRepository;
+
     ProductService productService;
     BuyerService buyerService;
-    PincodeService pincodeService;
+    PinCodeService pinCodeService;
 
-    public OrderService(ProductService ps, BuyerService bs, PincodeService pcs) {
-        this.productService = ps;
-        this.buyerService = bs;
-        this.pincodeService = pcs;
+    public OrderService(OrderRepository orderRepository, ProductService productService, BuyerService buyerService, PinCodeService pincodeService) {
+        this.orderRepository = orderRepository;
+        this.productService = productService;
+        this.buyerService = buyerService;
+        this.pinCodeService = pincodeService;
     }
 
     public String placeOrder(Order order) {
@@ -23,7 +26,7 @@ public class OrderService {
         }
 
         Product product = productService.getProduct(order.getProductId());
-        if (!pincodeService.isServiceable(product.getPinCode(), buyer.getPinCode(), order.getPaymentType())) {
+        if (!pinCodeService.isServiceable(product.getPinCode(), buyer.getPinCode(), order.getPaymentType())) {
             return "PinCode not serviceable for " + order.getPaymentType();
         }
 
@@ -31,11 +34,11 @@ public class OrderService {
             return "Insufficient Inventory";
         }
 
-        orders.put(order.getOrderId(), order);
+        orderRepository.save(order);
         return "Order placed successfully!";
     }
 
     public Order getOrder(String orderId) {
-        return orders.get(orderId);
+        return orderRepository.get(orderId);
     }
 }
