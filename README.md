@@ -1,18 +1,26 @@
-## Getting Started
+# Problem Statement:
+Design Mini Ecommerce Application
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Requirements
 
-## Folder Structure
+#### Product
+1. Add Product
+2. Update Product
+3. Check Inventory
 
-The workspace contains two folders by default, where:
+#### Buyer
+1. Add Buyer
+2. Get Buyer
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+#### Oder
+1. Add Order
+2. Get Order
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+#### PinCode Serviceability
+1. Create PinCodeServiceability
+2. Check Is Source And Dest PinCode Matches ForPaymentType
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+#### Payment Type
+1. PREPAID
+2. COD ( Cash on Delivery)
+3. BOTH
